@@ -46,13 +46,28 @@ public class CardGame {
         return deckOfCards;
     }
 
-    public static void main(String[] args) {
-        // Create a new CardGame instance
-        CardGame game = new CardGame("Poker");
-        // Display the deck of cards
-        game.getDeck();
-        // 
-        System.out.println("Game name: " + game.getName());
-        System.out.println("Number of cards: " + game.getDeckOfCards().size());
+    // Returns 
+    public Card dealCard() {
+        if (deckOfCards.isEmpty()) {
+            System.out.println("The deck is empty! No more cards to deal.");
+            return null; // No cards left to deal
+        }
+        return deckOfCards.remove(0); // Remove and return the top card, index 0 = top of the deck
     }
+
+public static void main(String[] args) {
+    CardGame game = new CardGame("Poker");
+    
+    System.out.println("Initial deck size: " + game.getDeckOfCards().size());
+    
+    // Deal 3 cards
+    Card card1 = game.dealCard();
+    Card card2 = game.dealCard();
+    Card card3 = game.dealCard();
+    
+    System.out.println("Dealt card 1: " + card1);
+    System.out.println("Dealt card 2: " + card2);
+    System.out.println("Dealt card 3: " + card3);
+    System.out.println("Remaining cards in deck: " + game.getDeckOfCards().size());
+}
 }
