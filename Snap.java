@@ -31,10 +31,10 @@ public class Snap extends CardGame {
         System.out.println("Press Enter to deal cards. It's SNAP after all!");
         System.out.println("Win by getting two cards with the same number or symbol in a row!\n");
 
-        boolean gameWon = false;
+        boolean isGameWon = false;
         int turnCount = 0;
 
-        while (!gameWon && getDeckOfCards().size() > 0) {
+        while (!isGameWon && getDeckOfCards().size() > 0) {
             // Wait for player to press Enter
             System.out.print("Press Enter to deal a card... ");
             scanner.nextLine();
@@ -56,7 +56,7 @@ public class Snap extends CardGame {
                     System.out.println("\nSnapie 🎉 SNAP! 🎉 Snap!");
                     System.out.println("Two " + currentCard.getSymbol() + "s in a row!");
                     System.out.println("You won just after " + turnCount + " turns!");
-                    gameWon = true;
+                    isGameWon = true;
                 }
             }
 
@@ -64,7 +64,7 @@ public class Snap extends CardGame {
             previousCard = currentCard;
         }
 
-        if (!gameWon && getDeckOfCards().size() == 0) {
+        if (!isGameWon && getDeckOfCards().size() == 0) {
             System.out.println("\nDeck is empty. No snap found. Game over!");
         }
 

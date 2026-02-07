@@ -28,23 +28,28 @@ This project is an implementation of the Snap card game built in Java as part of
 
 ### Key Concepts Demonstrated
 
-- **Object-Oriented Programming**
+- **Object-Oriented Programming**: Classes, inheritance, encapsulation
+- **Data Structures**: ArrayList manipulation and sorting
+- **Game Logic**: Turn-based gameplay and win conditions
+- **User Interaction**: Console I/O and timing mechanisms
 
 ## Features
 
-- [ ] Full 52-card deck implementation with Unicode suit symbols (♥ ♣ ♦ ♠)
+- ✅ Full 52-card deck implementation with Unicode suit symbols (♥ ♣ ♦ ♠)
+- ✅ Multiple deck sorting options (by number, by suit)
+- ✅ Card shuffling functionality
 
 ## Technologies Used
 
 - **Java** - Core programming language
-
+- **ArrayList** - Dynamic collection handling
 
 ## Getting Started
 
 ### Prerequisites
 
 - Java Development Kit (JDK) 8 or higher
-- A Java IDE (IntelliJ IDEA, VS Code)
+- A Java IDE (IntelliJ IDEA, Eclipse, VS Code) or command line tools
 
 ### Installation
 
@@ -71,26 +76,47 @@ java Snap
 
 ## How to Play
 
-
+### Single Player Mode
+1. Press **Enter** to deal a new card
+2. Watch for matching card symbols
+3. When two consecutive cards match, you win!
 
 ## Project Structure
 
-
+oop-java-project-snap-game/
+├── Card.java           # Card class with suit, symbol, and value
+├── CardGame.java       # Base card game class with deck management
+├── Snap.java           # Snap game implementation
+├── Player.java         # Player class for two-player mode
+└── README.md          # Project documentation
 
 ## Development Stages
 
-This project will be built incrementally through four stages:
+This project was built incrementally through four stages:
 
-### Stage 1: 
+### Stage 1: Core Classes
+- Created `Card` class with suit, symbol, and value properties
+- Implemented `CardGame` class with a 52-card deck
+- Added `toString()` method for card display
 
-### Stage 2: 
+### Stage 2: Deck Operations
+- Implemented `dealCard()` to remove and return the top card
+- Added `sortDeckInNumberOrder()` for numerical sorting
+- Added `sortDeckIntoSuits()` for suit-based sorting
+- Implemented `shuffleDeck()` for randomization
 
-### Stage 3: 
+### Stage 3: Single Player Snap
+- Created `Snap` class extending `CardGame`
+- Implemented turn-based gameplay with Enter key
+- Added win condition detection for consecutive matching cards
 
-### Stage 4: 
+### Stage 4: Two Player Mode
 
 ## What I Learned
 
+- How to structure a Java project with multiple interacting classes
+- Practical application of inheritance and method overriding
+- ArrayList manipulation including sorting and shuffling
 
 ## Contributing
 
