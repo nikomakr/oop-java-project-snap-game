@@ -1,3 +1,4 @@
+package src.main.java;
 /**
  * Represents a player in the Snap card game.
  * Each player has a name and can track their score/wins.

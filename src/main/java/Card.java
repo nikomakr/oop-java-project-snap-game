@@ -1,3 +1,4 @@
+package src.main.java;
 public class Card { //not sure about the private, below:
     private String suit; // e.g., "Hearts", "Diamonds", "Clubs", "Spades" aka "♥", "♦", "♣", "♠"
     private String symbol; // 2,3,4,5,6,7,8,9,10,J,Q,K,A
