@@ -41,6 +41,26 @@ public class Snap extends CardGame {
     }
 
     /**
+     * Constructor that accepts existing Player objects (for replay with stats).
+     * 
+     * @param existingPlayer1 Existing player 1 object
+     * @param existingPlayer2 Existing player 2 object
+     */
+    public Snap(Player existingPlayer1, Player existingPlayer2) {
+        super("Snap");  // Call parent constructor with game name
+        this.scanner = new Scanner(System.in);
+        this.player1 = existingPlayer1;
+        this.player2 = existingPlayer2;
+        this.previousCard = null;
+        this.currentCard = null;
+        this.currentPlayerIndex = 0;  // Player 1 starts
+        this.snapOccurred = false;
+        this.timerExpired = false;
+        this.snapResponse = "";
+        shuffleDeck();  // Start with a shuffled deck
+    }
+
+    /**
      * Gets the current player based on the turn index.
      * 
      * @return The player whose turn it is
@@ -102,20 +122,51 @@ public class Snap extends CardGame {
             if (previousCard != null) {
                 if (currentCard.getSymbol().equals(previousCard.getSymbol())) {
                     System.out.println("\n*** MATCH! Two " + currentCard.getSymbol() + "s! ***");
-                    System.out.println("Quick! Type 'snap' within 2 seconds!");
                     
-                    // Start the 2-second timer
+                    // Start the 2-second timer with PROGRESS BAR
                     snapOccurred = true;
                     timerExpired = false;
                     snapResponse = "";
                     
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
+                    // Show progress bar on its own line
+                    System.out.println("\n⏱️  [                    ]");
+                    System.out.print("Type 'snap': ");
+                    System.out.flush();
+                    
+                    Timer progressTimer = new Timer();
+                    final int[] beatsLeft = {20};  // 20 beats × 100ms = 2000ms
+                    
+                    progressTimer.scheduleAtFixedRate(new TimerTask() {
                         @Override
                         public void run() {
-                            timerExpired = true;
+                            beatsLeft[0]--;
+                            
+                            if (beatsLeft[0] >= 0) {
+                                // Move cursor up, update progress bar, move back down
+                                System.out.print("\033[1A");  // Move up 1 line
+                                System.out.print("\r⏱️  [");
+                                
+                                // Print filled blocks
+                                for (int i = 0; i < (20 - beatsLeft[0]); i++) {
+                                    System.out.print("█");
+                                }
+                                // Print empty spaces
+                                for (int i = 0; i < beatsLeft[0]; i++) {
+                                    System.out.print(" ");
+                                }
+                                System.out.print("]");
+                                
+                                System.out.print("\033[1B");  // Move down 1 line
+                                System.out.print("\rType 'snap': ");
+                                System.out.flush();
+                            }
+                            
+                            if (beatsLeft[0] < 0) {
+                                timerExpired = true;
+                                progressTimer.cancel();
+                            }
                         }
-                    }, 2000); // 2 seconds
+                    }, 0, 100);  // Start immediately, update every 100ms
                     
                     // Wait for input with timeout check
                     long startTime = System.currentTimeMillis();
@@ -133,21 +184,41 @@ public class Snap extends CardGame {
                         }
                     }
                     
-                    timer.cancel();
+                    progressTimer.cancel();
                     long responseTime = System.currentTimeMillis() - startTime;
+                    
+                    // Clean up display
+                    if (timerExpired) {
+                        System.out.print("\033[1A");  // Move up
+                        System.out.println("\r⏱️  [████████████████████] TIME'S UP!   ");
+                        System.out.println();
+                    } else {
+                        System.out.print("\033[1A");  // Move up
+                        System.out.println("\r⏱️  [████████████████████] DONE!        ");
+                        System.out.println();
+                    }
                     
                     // Check the response
                     if (snapResponse.equals("snap") && !timerExpired) {
-                        System.out.println("\nSnapie 🎉 SNAP! 🎉 Snap!");
+                        System.out.println("Snapie 🎉 SNAP! 🎉 Snap!");
                         System.out.println(currentPlayer.getName() + " typed 'snap' in " + responseTime + "ms!");
-                        System.out.println(currentPlayer.getName() + " wins!");
+                        System.out.println(currentPlayer.getName() + " wins this round!");
                         currentPlayer.addWin();
-                        isGameWon = true;
+                        
+                        // Check if deck is empty
+                        if (getDeckOfCards().size() == 0) {
+                            System.out.println("\n🎴 Deck is empty! Game over!");
+                            isGameWon = true;
+                        } else {
+                            System.out.println("Cards remaining: " + getDeckOfCards().size());
+                            System.out.println("Game continues...\n");
+                            // Game continues, don't set isGameWon = true
+                        }
                     } else if (timerExpired) {
-                        System.out.println("\nTime's up! Too slow!");
+                        System.out.println("Time's up! Too slow!");
                         System.out.println("Nobody wins this round. Game continues...\n");
                     } else {
-                        System.out.println("\nWrong input! You needed to type 'snap'!");
+                        System.out.println("Wrong input! You needed to type 'snap'!");
                         System.out.println("Nobody wins this round. Game continues...\n");
                     }
                     
@@ -165,22 +236,21 @@ public class Snap extends CardGame {
         }
 
         if (!isGameWon && getDeckOfCards().size() == 0) {
-            System.out.println("\nDeck is empty. No snap found. Game over!");
+            System.out.println("\n🎴 Deck is empty. No more snaps possible. Game over!");
         }
         
         // Display final scores
         System.out.println("\n=== Final Scores ===");
         System.out.println(player1);
         System.out.println(player2);
-
-        scanner.close();
     }
 
     /**
-     * Main method to run the two-player Snap game.
+     * Main method to run the two-player Snap game with replay option.
      */
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        boolean playAgain = true;
         
         System.out.println("=== Welcome to Two-Player Snap! ===\n");
         
@@ -190,10 +260,32 @@ public class Snap extends CardGame {
         System.out.print("Enter Player 2 name: ");
         String name2 = input.nextLine();
         
-        System.out.println();
+        // Create player objects once (stats will persist)
+        Player player1 = new Player(name1);
+        Player player2 = new Player(name2);
         
-        Snap game = new Snap(name1, name2);
-        game.play();
+        while (playAgain) {
+            System.out.println();
+            
+            // Create new game with existing players
+            Snap game = new Snap(player1, player2);
+            game.play();
+            
+            // Ask if players want to play again
+            System.out.print("\nPlay another game? (Y/N): ");
+            String response = input.nextLine().trim().toUpperCase();
+            
+            if (response.equals("Y") || response.equals("YES")) {
+                playAgain = true;
+                System.out.println("\n🔄 Starting new game...\n");
+            } else {
+                playAgain = false;
+                System.out.println("\n👋 Thanks for playing! Goodbye!");
+                System.out.println("\n=== Overall Statistics ===");
+                System.out.println(player1);
+                System.out.println(player2);
+            }
+        }
         
         input.close();
     }
