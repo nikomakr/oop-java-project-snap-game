@@ -111,11 +111,22 @@ The progress bar fills up as time passes - type "snap" before it completes!
 
 ```
 oop-java-project-snap-game/
-├── Card.java           # Card class with suit, symbol, and value
-├── CardGame.java       # Base card game class with deck management
-├── Snap.java           # Snap game implementation with timer
-├── Player.java         # Player class for statistics tracking
-└── README.md          # Project documentation
+├── .gitignore
+├── README.md
+├── LICENSE
+├── pom.xml
+├── src/
+|   └──  main/
+|      └── java/
+|          ├── Card.java
+|          ├── CardGame.java
+|          ├── Player.java
+|          ├── Snap.java
+|          └── SnapTerminal.java
+└──  target/
+   └── maven-archiver/
+          ├── pom.properties
+          └── snap-card-game-1.0.0.jar
 ```
 
 ## 🔄 Development Stages
