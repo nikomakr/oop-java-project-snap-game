@@ -4,7 +4,7 @@ A Java-based implementation of the classic Snap card game, demonstrating core Ob
 
 Project relies on Requirements given, here: https://github.com/nology-tech/van-rossum-jan-2026-cohort/blob/main/student-resources/04-java/1-projects/02-Snap/brief.md
 
-## Table of Contents
+## 📋 Table of Contents
 
 - [About the Project](#about-the-project)
 - [Features](#features)
@@ -24,7 +24,7 @@ Project relies on Requirements given, here: https://github.com/nology-tech/van-r
 
 ## 🎯 About the Project
 
-This project is an implementation of the Snap card game built in Java as part of my journey to strengthen software engineering fundamentals. The game demonstrates core OOP concepts including classes, inheritance, encapsulation, and collection handling through an interactive console-based interface.
+This project is an implementation of the Snap card game built in Java as part of my journey to strengthen software engineering fundamentals. The game demonstrates core OOP concepts including classes, inheritance, encapsulation, and collection handling through an interactive console-based interface with visual countdown timer.
 
 ### Key Concepts Demonstrated
 
@@ -32,24 +32,35 @@ This project is an implementation of the Snap card game built in Java as part of
 - **Data Structures**: ArrayList manipulation and sorting
 - **Game Logic**: Turn-based gameplay and win conditions
 - **User Interaction**: Console I/O and timing mechanisms
+- **Timer Implementation**: Progress bar countdown with visual feedback
 
-## Features
+## ✨ Features
 
 - ✅ Full 52-card deck implementation with Unicode suit symbols (♥ ♣ ♦ ♠)
 - ✅ Multiple deck sorting options (by number, by suit)
 - ✅ Card shuffling functionality
+- ✅ Single-player and two-player modes
+- ✅ Visual progress bar countdown (2-second timer)
+- ✅ Timed "snap" response mechanism with live visual feedback
+- ✅ Interactive console-based gameplay
+- ✅ Multiple rounds with persistent player statistics
+- ✅ Replay functionality with cumulative win tracking
 
-## Technologies Used
+## 🛠️ Technologies Used
 
 - **Java** - Core programming language
 - **ArrayList** - Dynamic collection handling
+- **Scanner** - Console input handling
+- **Timer/TimerTask** - Timed game mechanics and visual countdown
+- **ANSI Escape Codes** - Terminal-based progress bar animation
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Java Development Kit (JDK) 8 or higher
 - A Java IDE (IntelliJ IDEA, Eclipse, VS Code) or command line tools
+- Terminal with ANSI escape code support (most modern terminals)
 
 ### Installation
 
@@ -74,23 +85,40 @@ This project is an implementation of the Snap card game built in Java as part of
 java Snap
 ```
 
-## How to Play
+## 🎮 How to Play
 
-### Single Player Mode
-1. Press **Enter** to deal a new card
-2. Watch for matching card symbols
-3. When two consecutive cards match, you win!
+### Two-Player Mode
+1. Enter names for both players when prompted
+2. Players take turns pressing **Enter** to deal a card
+3. When two consecutive cards match (a "snap"), a visual progress bar appears
+4. Type **"snap"** within 2 seconds to win the round
+5. The fastest player to type "snap" wins the round and earns a point
+6. Game continues until the deck is empty
+7. Choose to play again (Y/N) to start a new game with persistent statistics
 
-## Project Structure
+### Visual Countdown
+When a match occurs, you'll see:
+```
+*** MATCH! Two Ks! ***
 
+⏱️  [████████████████████] 
+
+Type 'snap': 
+```
+The progress bar fills up as time passes - type "snap" before it completes!
+
+## 📁 Project Structure
+
+```
 oop-java-project-snap-game/
 ├── Card.java           # Card class with suit, symbol, and value
 ├── CardGame.java       # Base card game class with deck management
-├── Snap.java           # Snap game implementation
-├── Player.java         # Player class for two-player mode
+├── Snap.java           # Snap game implementation with timer
+├── Player.java         # Player class for statistics tracking
 └── README.md          # Project documentation
+```
 
-## Development Stages
+## 🔄 Development Stages
 
 This project was built incrementally through four stages:
 
@@ -98,32 +126,63 @@ This project was built incrementally through four stages:
 - Created `Card` class with suit, symbol, and value properties
 - Implemented `CardGame` class with a 52-card deck
 - Added `toString()` method for card display
+- Implemented getter methods for encapsulation
 
 ### Stage 2: Deck Operations
 - Implemented `dealCard()` to remove and return the top card
 - Added `sortDeckInNumberOrder()` for numerical sorting
 - Added `sortDeckIntoSuits()` for suit-based sorting
-- Implemented `shuffleDeck()` for randomization
+- Implemented `shuffleDeck()` for randomisation using Collections.shuffle()
 
 ### Stage 3: Single Player Snap
 - Created `Snap` class extending `CardGame`
 - Implemented turn-based gameplay with Enter key
 - Added win condition detection for consecutive matching cards
+- Integrated Scanner for user input handling
 
-### Stage 4: Two Player Mode
+### Stage 4: Two-Player Mode
+- Created `Player` class with name and win tracking
+- Implemented turn alternation between two players
+- Added 2-second timer using Timer and TimerTask
+- Implemented input validation for "snap" keyword
+- Integrated visual progress bar countdown
+- Added replay functionality with persistent statistics
+- Implemented multiple-round gameplay with cumulative scoring
 
-## What I Learned
+## 💡 What I Learned
 
 - How to structure a Java project with multiple interacting classes
 - Practical application of inheritance and method overriding
 - ArrayList manipulation including sorting and shuffling
+- Implementing game state management and turn logic
+- Working with console I/O and timing mechanisms
+- Using Timer and TimerTask for asynchronous countdown
+- ANSI escape codes for terminal-based visual feedback
+- Constructor overloading for different object initialisation scenarios
+- Persisting object state across multiple game instances
 
-## Contributing
+## 🔮 Future Enhancements
+
+- [ ] Add GUI using JavaFX or Swing
+- [ ] Implement different game variations
+- [ ] Add sound effects for card dealing and snaps
+- [ ] Create leaderboard system with file persistence
+- [ ] Add AI opponent for single-player mode
+- [ ] Implement networked multiplayer (client-server architecture)
+- [ ] Add customisable timer duration
+- [ ] Implement different difficulty levels
+
+## 🤝 Contributing
 
 This is a learning project, but feedback and suggestions are welcome!
 
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## License
+## 📄 License
 
 MIT License
 
@@ -145,9 +204,9 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.IT
+SOFTWARE.
 
-## Contact
+## 📬 Contact
 
 Nikolaos Niko Makridis - [@nikomakr](https://github.com/nikomakr)
 

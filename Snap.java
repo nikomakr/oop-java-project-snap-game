@@ -15,7 +15,6 @@ public class Snap extends CardGame {
     private Player player1;         // First player
     private Player player2;         // Second player
     private int currentPlayerIndex; // 0 for player1, 1 for player2
-    private boolean snapOccurred;   // Flag for when matching cards appear
     private boolean timerExpired;   // Flag for when 2-second timer expires
     private String snapResponse;    // Stores player's input during snap opportunity
 
@@ -34,7 +33,6 @@ public class Snap extends CardGame {
         this.previousCard = null;
         this.currentCard = null;
         this.currentPlayerIndex = 0;  // Player 1 starts
-        this.snapOccurred = false;
         this.timerExpired = false;
         this.snapResponse = "";
         shuffleDeck();  // Start with a shuffled deck
@@ -54,7 +52,6 @@ public class Snap extends CardGame {
         this.previousCard = null;
         this.currentCard = null;
         this.currentPlayerIndex = 0;  // Player 1 starts
-        this.snapOccurred = false;
         this.timerExpired = false;
         this.snapResponse = "";
         shuffleDeck();  // Start with a shuffled deck
@@ -67,15 +64,6 @@ public class Snap extends CardGame {
      */
     private Player getCurrentPlayer() {
         return currentPlayerIndex == 0 ? player1 : player2;
-    }
-
-    /**
-     * Gets the other player (not current turn).
-     * 
-     * @return The player who is not currently taking a turn
-     */
-    private Player getOtherPlayer() {
-        return currentPlayerIndex == 0 ? player2 : player1;
     }
 
     /**
@@ -124,7 +112,6 @@ public class Snap extends CardGame {
                     System.out.println("\n*** MATCH! Two " + currentCard.getSymbol() + "s! ***");
                     
                     // Start the 2-second timer with PROGRESS BAR
-                    snapOccurred = true;
                     timerExpired = false;
                     snapResponse = "";
                     
@@ -222,7 +209,6 @@ public class Snap extends CardGame {
                         System.out.println("Nobody wins this round. Game continues...\n");
                     }
                     
-                    snapOccurred = false;
                 }
             }
 
